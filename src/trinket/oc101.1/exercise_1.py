@@ -1,34 +1,44 @@
+import time
 import turtle
 
-# Configure the number of sides of the polygon you want to draw (e.g., 3 for a
-# triangle)
+# Configure the desired number of sides of the polygon you want to draw (e.g.,
+# 3 for a triangle)
 SIDES = 3
 
-# Grab a turty
+# Hint: Try setting the value `SIDES` to 12. The turtle will go out-of-bounds
+# because the size of the polygon scales in proportion to the square of the
+# number of sides.
+
+# Configure the desired side length
+SIDE_LENGTH = 100
+
+# Hint: Try setting `SIDES` to 36 and `SIDE_LENGTH` to 10. The result should
+# provide visual insight into what we are actually drawing.
+
+# Initialize a green turtle
 turty = turtle.Turtle()
+turty.hideturtle()
 turty.color("green")
 turty.shape("turtle")
 turty.width(2)
 
-# The perimeter of a polygon increases linearly with the number of sides.
-# However, the area of a polygon grows roughly with the square of the number
-# of sides. This means that if we hard-code the side length, the size of the
-# polygon will grow very quickly as `SIDES` is increased.
+# Reposition the turtle so the polygon is always centered on screen
+turty.penup()
+turty.goto(-SIDE_LENGTH // 2, -SIDE_LENGTH // 2)
+turty.pendown()
 
-# To prevent the polygon from going out-of-bounds, we can make the side length
-# inversely proportional to the number of sides.
-
-# After some trial and error with Trinket, a scaling factor of 300 seems reasonable.
-side_length = 300 / SIDES
-
-# Hint: With the on-screen size of the polygon under control, try setting
-# `SIDES` to a value of 36 or higher to gain a visual insight into what we are
-# actually drawing.
+# Show the turtle and pause briefly before moving
+turty.showturtle()
+time.sleep(0.5)
 
 # The sum of the exterior angles of any polygon is always 360 degrees
 exterior_angle = 360 / SIDES
 
 # Draw the polygon
 for _ in range(SIDES):
-    turty.forward(side_length)
+    turty.forward(SIDE_LENGTH)
     turty.left(exterior_angle)
+
+# Pause briefly before hiding the turtle
+time.sleep(0.5)
+turty.hideturtle()
