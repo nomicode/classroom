@@ -1,86 +1,54 @@
 import time
 import turtle
 
-# User configurable font size
-FONT_SIZE = 65
+# Configure the desired font size
+FONT_SIZE = 50
 
-# Typeface geometry
-# =============================================================================
-
-# X-height is the height of a lowercase "x" and is typically 0.5 to 0.7 times
-# the font size
-x_height = FONT_SIZE * 0.5
-
-# Stroke width is typically 0.1 to 0.15 times the font size
-stroke_width = FONT_SIZE * 0.1
-
-# The first stem of the "n" typically connects with the x-height
-first_stem_height = x_height
-
-# The height of the second stem of the "n" character is typically about 0.8 to
-# 0.9 times the x-height for screen typefaces, but we need to use a lower value
-# to accommodate the prominent curve of the shoulder (more reminiscent of
-# hand-written forms)
-second_stem_height = x_height * 0.6
-
-# For a simple handwriting style typeface, the shoulder can be drawn as a
-# perfect semi-circle (unlike the more elliptical curves in screen typefaces)
-# with a radius that makes up the space between the x-height and the top of the
-# second stem
-shoulder_radius = x_height - second_stem_height
+# Configure glyph geometry
+stroke_width = FONT_SIZE * 0.2
+stem_height = FONT_SIZE * 0.6
+shoulder_radius = FONT_SIZE - stem_height
 shoulder_angle = 180
-
-# Ornaments and swashes that descend below the baseline typically extend about
-# 0.2 to 0.4 times the x-height
-swash_radius = x_height * 0.2
-swash_angle = 90
-
-# Turtle
-# =============================================================================
-
-turty = turtle.Turtle()
-
-# Use a circle to emulate a pen on paper
-turty.shape("circle")
-turty.width(stroke_width)
-
-# Encapsulate some of the drawing logic
-# -----------------------------------------------------------------------------
-
-# Heading constants
-_UP_HEADING = 90
-_DOWN_HEADING = -90
+swash_radius = FONT_SIZE * 0.2
+swash_angle = 60
 
 
-def draw_line(heading, distance):
+def draw_line(pen, heading, distance):
     """Draw a line with the given heading and distance"""
-    turty.setheading(heading)
-    turty.forward(distance)
+    pen.setheading(heading)
+    pen.forward(distance)
 
 
-def draw_arc(radius, angle):
+def draw_arc(pen, radius, angle):
     """Draw an arc with the given radius and angle"""
-    turty.circle(radius, angle)
+    pen.circle(radius, angle)
 
 
-# Draw the letter "n" the way it would be written by hand
-# -----------------------------------------------------------------------------
+# Initialize a turtle that resembles pen on paper
+pen = turtle.Turtle()
+pen.hideturtle()
+pen.shape("circle")
+pen.width(stroke_width)
 
-# Move the pen to the starting position at x-height
-turty.penup()
-turty.goto(0, x_height)
-turty.pendown()
+# Move the pen to the starting point at the top of the letter
+pen.penup()
+pen.goto(0, FONT_SIZE)
+pen.pendown()
 
-# A downward stroke starting to the baseline
-draw_line(_DOWN_HEADING, first_stem_height)
+# Show the turtle
+pen.showturtle()
 
-# An upward stroke to form the shoulder, second stem, and swash
-draw_line(_UP_HEADING, second_stem_height)
-draw_arc(-shoulder_radius, shoulder_angle)  # Negative radius to arc right
-draw_line(_DOWN_HEADING, second_stem_height)
-draw_arc(swash_radius, swash_angle)
+# A downward stroke to the baseline
+draw_line(pen, -90, FONT_SIZE)
+# An upward stroke to stem height
+draw_line(pen, 90, stem_height)
+# Form the shoulder
+draw_arc(pen, -shoulder_radius, shoulder_angle)  # Negative radius to arc right
+# Continue to the baseline
+draw_line(pen, -90, stem_height)
+# Finish with a swash
+draw_arc(pen, swash_radius, swash_angle)
 
-# A brief pause before lifting the pen up and off the paper
-time.sleep(0.2)
-turty.penup()
-turty.hideturtle()
+# Pause briefly before hiding the turtle
+time.sleep(0.5)
+pen.hideturtle()
