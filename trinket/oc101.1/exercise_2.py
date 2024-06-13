@@ -2,7 +2,7 @@ import time
 import turtle
 
 # Configure the desired font size
-FONT_SIZE = 50
+FONT_SIZE = 40
 
 # Configure glyph geometry
 stroke_width = FONT_SIZE * 0.2
